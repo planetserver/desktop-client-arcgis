@@ -2,7 +2,7 @@
 # http://wiki.scipy.org/Cookbook/Matplotlib/PySide
 #
 # IF ERROR
-#  - Go here: http://planetserver.jacobs-university.de:8080/rasdaman/ows/wcps?query=for%20a%20in%20(hrs000119d3_07_if173l_trr3_1_01)%20return%20encode(a.100,%20%22csv%22)
+#  - Go here: http://es1.planetserver.eu:8080/rasdaman/ows?query=for%20a%20in%20(hrs000119d3_07_if173l_trr3_1_01)%20return%20encode(a.100,%20%22csv%22)
 #
 # TODO:
 #  - Wouter: Het zou handig zijn als je direct kan klikken en dat achter de schermen het juiste beeld wordt geselecteerd, met eventueel een foutmelding / waarschuwing als er geen beeld / meerdere overlappende beelden zijn op die plek
@@ -202,7 +202,7 @@ def LoadFootprintLayer():
     # Download footprint shapefile if it doesn't exist
     footprints = os.path.join(wcpsfolder, crismfootprintlayer + ".shp")
     if not arcpy.Exists(footprints):
-        url = 'http://www.planetserver.eu/data/' + crismfootprintlayer + '.zip'
+        url = 'http://es1.planetserver.eu/data/' + crismfootprintlayer + '.zip'
         zip = os.path.join(wcpsfolder, crismfootprintlayer + '.zip')
         try:
             handle = urllib2.urlopen(urllib2.Request(url))
@@ -997,10 +997,14 @@ class ToolClass1(object):
     def __init__(self):
         global main_widget
         global enable_addin
+        global application
         self.enabled = enable_addin
         #self.shape = "NONE" # Can set to "Line", "Circle" or "Rectangle" for interactive shape drawing and to activate the onLine/Polygon/Circle event sinks.
         self.cursor = 3
-        application = QtGui.QApplication(sys.argv)
+        try:
+            application = QtGui.QApplication(sys.argv)
+        except:
+            application = QtGui.QApplication.instance()
         main_widget = MatplotlibInteractiveWidget()
         
     def onMouseDownMap(self, x, y, button, shift):
@@ -1180,7 +1184,7 @@ class ButtonClass9(object):
         wkt = ps2mask.WKT
         #wkt.replace("MULTIPOLYGON", "POLYGON")
         
-        makemaskurl = "http://planetserver.jacobs-university.de/cgi-bin/makemask.cgi?"
+        makemaskurl = "http://es1.planetserver.eu/cgi-bin/makemask.cgi?"
         for productid in pids:
             if "l_" in productid:
                 [xmin,xmax,ymin,ymax,width,height] = metadata[productid]
@@ -1329,9 +1333,9 @@ class ButtonClass15(object):
         wmslyr = arcpy.mapping.Layer(wmslyrpath)
         arcpy.mapping.AddLayer(df, wmslyr)
 
-pswcpsurl = 'http://planetserver.jacobs-university.de:8080/rasdaman/ows'
-crs_ps1 = 'http://planetserver.jacobs-university.de:8080/def/crs/PS/0/1/'
-crs_ps2 = 'http://planetserver.jacobs-university.de:8080/def/crs/PS/0/2/'
+pswcpsurl = 'http://es1.planetserver.eu:8080/rasdaman/ows'
+crs_ps1 = 'http://es1.planetserver.eu:8080/def/crs/PS/0/1/'
+crs_ps2 = 'http://es1.planetserver.eu:8080/def/crs/PS/0/2/'
 winenv = Win32Environment()
 main_widget = ""
 #data = ""
@@ -1390,3 +1394,5 @@ button_12 = ButtonClass12()
 button_13 = ButtonClass13()
 button_14 = ButtonClass14()
 button_15 = ButtonClass15()
+
+application = ""

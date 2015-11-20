@@ -55,7 +55,7 @@ class CRISMWCPSSummaryProducts(object):
             parameterType="Required",
             direction="Input")
         
-        out_folder.value = 'F:\NoachisTerra\CRISM_WCPS'
+        out_folder.value = ''
         
         parameters = [in_layer, spname, out_folder]
         return parameters
@@ -77,7 +77,7 @@ class CRISMWCPSSummaryProducts(object):
 
     def execute(self, parameters, messages):
         global sp
-        wcpsurl = 'http://planetserver.jacobs-university.de:8080/rasdaman/ows'
+        wcpsurl = 'http://es1.planetserver.eu:8080/rasdaman/ows'
         proj = 'PROJCS["Mars Equicylindrical clon=0",GEOGCS["GCS_Mars_2000_Sphere",DATUM["D_Mars_2000_Sphere",SPHEROID["Mars_2000_Sphere_IAU_IAG",3396190.0,0.0]],PRIMEM["Reference_Meridian",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Equidistant_Cylindrical"],PARAMETER["False_Easting",0.0],PARAMETER["False_Northing",0.0],PARAMETER["Central_Meridian",0.0],PARAMETER["Standard_Parallel_1",0.0],UNIT["Meter",1.0]]'
         env.addOutputToMap = True
         env.workspace = 'in_memory'
