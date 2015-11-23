@@ -6,7 +6,7 @@ Before you can run the PlanetServer ArcGIS add-in you need:
 You will need to install PySide (http://qt-project.org/wiki/PySide_Binaries_Windows). This will most likely be: http://download.qt-project.org/official_releases/pyside/PySide-1.2.1.win32-py2.7.exe
 
 # Debugging
-Once in a while when I'm writing code and checking in ArcGIS Desktop my changes cause ArcGIS to crash. That's probably because of conflicts between ArcGIS and PySide. Normally you need to remove an addin from within ArcGIS but now of course ArcGIS doesn't start anymore! I you would happen to stumble upon this problem here's how to solve it:
+Once in a while when I'm writing code and checking in ArcGIS Desktop my changes cause ArcGIS to crash. That's probably because of conflicts between ArcGIS and PySide. Normally you need to remove an addin from within ArcGIS but now of course ArcGIS doesn't start anymore! If you would happen to stumble upon this problem here's how to solve it:
  - Go to C:\Users\<username>\AppData\Local\ESRI\Desktop10.3\AssemblyCache
  - Find the addin in one of the subfolders
  - Open the main script in a text editor (Notepad++).
