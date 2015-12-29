@@ -508,11 +508,19 @@ def get_wcpsimage(name, bandmathdata, irvnir):
                     fp.write(chunk)
             
             # tfw
+            # [xmin,xmax,ymin,ymax,width,height] = metadata[productid]
+            # res = abs(xmax - xmin) / width
+            # tfw = open(wcpstif[:-4] + ".tfw","w")
+            # tfw.write("%s\n0\n0\n-%s\n%s\n%s\n" %(res,res,xmin,ymax))
+            # tfw.close()
+            
+            # Numpy (http://gis.stackexchange.com/a/27955)
             [xmin,xmax,ymin,ymax,width,height] = metadata[productid]
             res = abs(xmax - xmin) / width
-            tfw = open(wcpstif[:-4] + ".tfw","w")
-            tfw.write("%s\n0\n0\n-%s\n%s\n%s\n" %(res,res,xmin,ymax))
-            tfw.close()
+            wcps_numpy = arcpy.RasterToNumPyArray(wcpstif)
+            os.unlink(wcpstif)
+            wcps_raster = arcpy.NumPyArrayToRaster(wcps_numpy, arcpy.Point(xmin, ymin), res, res, 65535) #x and y are your new lower left coordinates
+            wcps_raster.save(wcpstif)
             
             if os.path.exists(wcpstif):
                 # Georef
@@ -1023,6 +1031,7 @@ class ToolClass1(object):
         pids, metadata = get_crism_info()
         # do a check that either 1 or 2 features are selected and if 2, they only differ in 's' and 'l'
         pids = check_selected_crism(pids)
+        print pids
         if pids == -1:
             pass
         else:
